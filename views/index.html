@@ -8,22 +8,21 @@
     </head>
     <body>
         <div>
-            <h1>Pomodoro Timer</h1>
+            <h1>Pomodoro Timer</h1><button id="config">⚙️</button>
             <br>
-            <button id="config">config button</button>
         </div>
         <div>
             <h1 id="Timer"></h1>
             <br>
-            <button id="start">start</button>
+            <button id="start" onclick="mostrarTiempoTranscurrido()">start</button>
             <button id="stop">stop</button>
         </div>
+        <br>
         <div>    
             <div id='Task'>
                 <input id="inputana" placeholder="Agregar nueva tarea...">
                 <button id="NewTask" onclick="addTask()">+ New Task</button>
             </div>
-            <ul id="taskList"></ul>
         </div>
         <script src="/script.js"></script>
     </body>
