@@ -48,20 +48,68 @@ const editTask = (button) => {
 
 
 //FUNCTION TIMER 
-const numTimer = document.getElementById('Timer');
+const minutes = document.getElementById('minutes');
+const seconds = document.getElementById('seconds');
 const start = document.getElementById('start');
 const stop = document.getElementById('stop');
 
+let min = 1; // Cambia esto según el tiempo inicial que quieras
+let sec = 10;
+let minDes = 0;
+let secDes = 5;
+let interval;  
 
+seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 
-const end = Date.now() + 60*1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
+const mostrarTiempoTranscurrido = () => {
+    if (sec === 0) {
+        if (min === 0) {
+            clearInterval(interval); // Detener cuando llega a 00:00
+            return;
+        }
+        min--;    // Restar un minuto
+        sec = 59; // Reiniciar los segundos
+    } else {
+        sec--;
+    }
 
+    seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+};
+
+const mostrarTiempoTranscurridoDescanso = () =>{
+    //cuando temrina mostrarTiempoTranscurrido se activa mostrarTiempoTranscurridoDescanso y viceversa
+};
+
+// Iniciar temporizador
+const ini = () => {
+    if (!interval) { 
+        interval = setInterval(mostrarTiempoTranscurrido, 1000);
+    }
+};
+
+// Detener temporizador
+const det = () => {
+    clearInterval(interval);
+    interval = null;
+};
+
+const res = () =>{
+
+}
+
+/*
+const end = Date.now() + 5*1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
+numTimer.innerHTML = Math.floor((end - Date.now()) / 1000);
 function mostrarTiempoTranscurrido() {
   const tiempoTranscurrido = Math.floor((end - Date.now()) / 1000);
-  if(tiempoTranscurrido > 0)
-  {
-    numTimer.innerHTML = tiempoTranscurrido;
-     //Programamos para que se revise de nuevo el tiempo transcurrido en 500ms
-     setTimeout(mostrarTiempoTranscurrido, 500);
-  } //else: Sino no programamos nada, es como si detuvieramos el timer
+  if(tiempoTranscurrido >= 0)
+    {   
+        numTimer.innerHTML = tiempoTranscurrido;
+        //Programamos para que se revise de nuevo el tiempo transcurrido en 500ms
+        setTimeout(mostrarTiempoTranscurrido, 1000); //1000
+    } else {
+        alert('fin del contador')
+    }
+    //else: Sino no programamos nada, es como si detuvieramos el timer
 }
+    */
