@@ -53,7 +53,7 @@ const seconds = document.getElementById('seconds');
 const start = document.getElementById('start');
 const stop = document.getElementById('stop');
 
-let min = 1; // Cambia esto según el tiempo inicial que quieras
+let min = 0; // Cambia esto según el tiempo inicial que quieras
 let sec = 10;
 let minDes = 0;
 let secDes = 5;
@@ -63,9 +63,14 @@ seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStar
 
 const mostrarTiempoTranscurrido = () => {
     if (sec === 0) {
-        if (min === 0) {
-            clearInterval(interval); // Detener cuando llega a 00:00
-            return;
+        if (min === 0) {            
+
+            minDes = 0;
+            secDes = 5;
+            seconds.innerHTML = `${minDes.toString().padStart(2, '0')}:${secDes.toString().padStart(2, '0')}`;
+            clearInterval(interval);// Detener cuando llega a 00:00
+            interval = setInterval(mostrarTiempoTranscurridoDescanso, 1000); 
+             //en este punto todo se termina, aqui debe iniciar el descanso 
         }
         min--;    // Restar un minuto
         sec = 59; // Reiniciar los segundos
@@ -78,6 +83,23 @@ const mostrarTiempoTranscurrido = () => {
 
 const mostrarTiempoTranscurridoDescanso = () =>{
     //cuando temrina mostrarTiempoTranscurrido se activa mostrarTiempoTranscurridoDescanso y viceversa
+    if (secDes === 0) {
+        if (minDes === 0) {             
+
+            min = 0;
+            sec = 10;
+            seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`
+            clearInterval(interval);
+            interval = setInterval(mostrarTiempoTranscurrido, 1000); // Detener cuando llega a 00:00
+             //en este punto todo se termina, aqui debe iniciar el descanso 
+        }
+        minDes--;    // Restar un minuto
+        secDes = 59; // Reiniciar los segundos
+    } else {
+        secDes--;
+    }
+
+    seconds.innerHTML = `${minDes.toString().padStart(2, '0')}:${secDes.toString().padStart(2, '0')}`;
 };
 
 // Iniciar temporizador
@@ -89,11 +111,16 @@ const ini = () => {
 
 // Detener temporizador
 const det = () => {
-    clearInterval(interval);
+    clearInterval(interval);//cancela la acción repetitiva especificada por el ID del intervalo
     interval = null;
 };
 
-const res = () =>{
+const res = () =>{ 
+    min = 0;
+    sec = 10;
+    seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    clearInterval(interval);
+    interval = null;
 
 }
 
