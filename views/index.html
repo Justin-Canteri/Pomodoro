@@ -9,17 +9,20 @@
     <body>
         <div>
             <h1>Pomodoro Timer</h1><button id="config">⚙️</button>
+            <form>
+                <label for="minFocus"> Minutes for focus </label>
+                <input id="minFocus" name="minFocus" type="number" step="1" max="60">
+            </form>
+            <form>
+                <label for="minBreak"> Minutes for break </label>
+                <input id="minBreak" name="minBreak" type="number" step="1" max="60">
+            </form>
+            <a href="/login">login</a>
+            <a href="/logout">logaut</a>
             <br>
         </div>
         <div>
-            <div>
-                <h1 id="minutes"></h1>
-                <h1 id="seconds"></h1>
-            </div>
-            <div>
-                <h1 id="minutesDes"></h1>
-                <h1 id="secondsDes"></h1>
-            </div>
+            <h1 id="seconds"></h1>
             <br>
             <button id="start" onclick="ini()">start</button>
             <button id="stop" onclick="det()">stop</button>

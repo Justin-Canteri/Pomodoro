@@ -11,6 +11,6 @@ app.get('/', (req, res, next) =>{
     res.sendFile(path.join(__dirname, 'views', 'index.html'))
 })
 
-app.get('/config',(req, res, next) =>{
+app.get('/login',(req, res, next) =>{
     res.sendFile(path.join(__dirname, 'views', 'Config.html'))
 })

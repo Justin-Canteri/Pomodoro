@@ -47,33 +47,39 @@ const editTask = (button) => {
 
 
 
-//FUNCTION TIMER 
-const minutes = document.getElementById('minutes');
+//FUNCTION TIMER
+
+let min = document.getElementById('minFocus').value;  //how take value an put in  ? 
+let minDes = document.getElementById('minBreak').value;
+
 const seconds = document.getElementById('seconds');
 const start = document.getElementById('start');
 const stop = document.getElementById('stop');
 
-let min = 0; // Cambia esto según el tiempo inicial que quieras
-let sec = 10;
-let minDes = 0;
-let secDes = 5;
+
+min = 1; // Cambia esto según el tiempo inicial que quieras
+let sec = 0;
+minDes = 1;
+let secDes =0;
+
 let interval;  
 
 seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 
 const mostrarTiempoTranscurrido = () => {
     if (sec === 0) {
-        if (min === 0) {            
-
-            minDes = 0;
+        if (min === 0) {     
+            clearInterval(interval);// Detener cuando llega a 00:00       
+            minDes = 1;
             secDes = 5;
             seconds.innerHTML = `${minDes.toString().padStart(2, '0')}:${secDes.toString().padStart(2, '0')}`;
-            clearInterval(interval);// Detener cuando llega a 00:00
             interval = setInterval(mostrarTiempoTranscurridoDescanso, 1000); 
+            return;
              //en este punto todo se termina, aqui debe iniciar el descanso 
+        } else{
+            min--;    // Restar un minuto
+            sec = 59; // Reiniciar los segundos
         }
-        min--;    // Restar un minuto
-        sec = 59; // Reiniciar los segundos
     } else {
         sec--;
     }
@@ -84,17 +90,18 @@ const mostrarTiempoTranscurrido = () => {
 const mostrarTiempoTranscurridoDescanso = () =>{
     //cuando temrina mostrarTiempoTranscurrido se activa mostrarTiempoTranscurridoDescanso y viceversa
     if (secDes === 0) {
-        if (minDes === 0) {             
-
-            min = 0;
+        if (minDes === 0) {
+            clearInterval(interval);
+            min = 1;
             sec = 10;
             seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`
-            clearInterval(interval);
             interval = setInterval(mostrarTiempoTranscurrido, 1000); // Detener cuando llega a 00:00
              //en este punto todo se termina, aqui debe iniciar el descanso 
+             return;
+        } else{
+            minDes--;    // Restar un minuto
+            secDes = 59; // Reiniciar los segundos
         }
-        minDes--;    // Restar un minuto
-        secDes = 59; // Reiniciar los segundos
     } else {
         secDes--;
     }
@@ -116,7 +123,7 @@ const det = () => {
 };
 
 const res = () =>{ 
-    min = 0;
+    min = 1;
     sec = 10;
     seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
     clearInterval(interval);
@@ -140,3 +147,5 @@ function mostrarTiempoTranscurrido() {
     //else: Sino no programamos nada, es como si detuvieramos el timer
 }
     */
+
+//Config
