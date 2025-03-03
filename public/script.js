@@ -48,30 +48,40 @@ const editTask = (button) => {
 
 
 //FUNCTION TIMER
-
-let min = document.getElementById('minFocus').value;  //how take value an put in  ? 
-let minDes = document.getElementById('minBreak').value;
-
 const seconds = document.getElementById('seconds');
 const start = document.getElementById('start');
 const stop = document.getElementById('stop');
+const state = document.getElementById('status');
 
 
-min = 1; // Cambia esto según el tiempo inicial que quieras
-let sec = 0;
-minDes = 1;
-let secDes =0;
+let inputUserMin = 30; // Input user to work
+let inputUserMinDes = 5; //input user to break
 
 let interval;  
+let secDes =0;
+let sec = 0;
+let min = inputUserMin;
+let minDes = inputUserMinDes;
+
+const changeMin = (num) =>{
+    inputUserMin = num;
+    res();
+};
+
+const changeMinDes = (num) =>{
+    inputUserMinDes = num;
+    res();
+};
 
 seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-
+state.innerHTML = 'Time to focus!';
 const mostrarTiempoTranscurrido = () => {
     if (sec === 0) {
         if (min === 0) {     
             clearInterval(interval);// Detener cuando llega a 00:00       
-            minDes = 1;
+            minDes = inputUserMinDes;
             secDes = 5;
+            state.innerHTML = 'Time to break!'
             seconds.innerHTML = `${minDes.toString().padStart(2, '0')}:${secDes.toString().padStart(2, '0')}`;
             interval = setInterval(mostrarTiempoTranscurridoDescanso, 1000); 
             return;
@@ -92,8 +102,9 @@ const mostrarTiempoTranscurridoDescanso = () =>{
     if (secDes === 0) {
         if (minDes === 0) {
             clearInterval(interval);
-            min = 1;
-            sec = 10;
+            min = inputUserMin;
+            sec = 5;
+            state.innerHTML = 'Time to focus!';
             seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`
             interval = setInterval(mostrarTiempoTranscurrido, 1000); // Detener cuando llega a 00:00
              //en este punto todo se termina, aqui debe iniciar el descanso 
@@ -105,7 +116,6 @@ const mostrarTiempoTranscurridoDescanso = () =>{
     } else {
         secDes--;
     }
-
     seconds.innerHTML = `${minDes.toString().padStart(2, '0')}:${secDes.toString().padStart(2, '0')}`;
 };
 
@@ -123,29 +133,24 @@ const det = () => {
 };
 
 const res = () =>{ 
-    min = 1;
-    sec = 10;
+    min = inputUserMin;
+    sec = 0;
     seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
     clearInterval(interval);
+    state.innerHTML = 'Time to focus!';
     interval = null;
 
 }
 
-/*
-const end = Date.now() + 5*1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
-numTimer.innerHTML = Math.floor((end - Date.now()) / 1000);
-function mostrarTiempoTranscurrido() {
-  const tiempoTranscurrido = Math.floor((end - Date.now()) / 1000);
-  if(tiempoTranscurrido >= 0)
-    {   
-        numTimer.innerHTML = tiempoTranscurrido;
-        //Programamos para que se revise de nuevo el tiempo transcurrido en 500ms
-        setTimeout(mostrarTiempoTranscurrido, 1000); //1000
-    } else {
-        alert('fin del contador')
-    }
-    //else: Sino no programamos nada, es como si detuvieramos el timer
-}
-    */
-
 //Config
+const dropConfig = document.getElementById("dropConfig");
+
+const dropConfigFunc = () =>{
+    if (dropConfig.style.visibility === "hidden") {
+
+        dropConfig.style.visibility = "visible";
+    } else {
+        dropConfig.style.visibility = "hidden";
+    }
+
+}

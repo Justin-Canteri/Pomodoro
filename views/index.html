@@ -8,21 +8,34 @@
     </head>
     <body>
         <div>
-            <h1>Pomodoro Timer</h1><button id="config">⚙️</button>
-            <form>
-                <label for="minFocus"> Minutes for focus </label>
-                <input id="minFocus" name="minFocus" type="number" step="1" max="60">
-            </form>
-            <form>
-                <label for="minBreak"> Minutes for break </label>
-                <input id="minBreak" name="minBreak" type="number" step="1" max="60">
-            </form>
-            <a href="/login">login</a>
-            <a href="/logout">logaut</a>
+            <h1>Pomodoro Timer</h1>
+            <button id="config" onclick="dropConfigFunc()">⚙️</button>
+            <a href="/week">Designe your week</a>
+            <div id ="dropConfig" style="visibility: hidden;">
+                <ul>
+                    <li>
+                    <form>
+                        <label for="minFocus">Focus Time</label>
+                        <input id="minFocus" name="minFocus" type="number" step="1" max="60" min ='1' value="30" onchange="changeMin(this.value)">
+                    </form>
+                    <form>
+                        <label for="minBreak">Break Time</label>
+                        <input id="minBreak" name="minBreak" type="number" step="1" max="60" min="1" value="5" onchange="changeMinDes(this.value)">
+                    </form>
+                    </li>
+                    <li>
+                        <a href="/login">login</a>
+                    </li>
+                    <li>
+                        <a href="/logout">logaut</a>
+                    </li>
+                </ul>
+            </div>
             <br>
         </div>
         <div>
             <h1 id="seconds"></h1>
+            <p id="status"></p>
             <br>
             <button id="start" onclick="ini()">start</button>
             <button id="stop" onclick="det()">stop</button>

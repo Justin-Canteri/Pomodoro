@@ -9,8 +9,12 @@ app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${POR
 
 app.get('/', (req, res, next) =>{
     res.sendFile(path.join(__dirname, 'views', 'index.html'))
-})
+});
+
+app.get('/week',(req, res, next) =>{
+    res.sendFile(path.join(__dirname, 'views', 'week.html'))
+});
 
 app.get('/login',(req, res, next) =>{
-    res.sendFile(path.join(__dirname, 'views', 'Config.html'))
+    res.sendFile(path.join(__dirname, 'views', 'login.html'))
 })
