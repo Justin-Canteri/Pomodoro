@@ -14,13 +14,14 @@
             <div id ="dropConfig" style="visibility: hidden;">
                 <ul>
                     <li>
-                    <form>
+                    <form id="form">
                         <label for="minFocus">Focus Time</label>
-                        <input id="minFocus" name="minFocus" type="number" step="1" max="60" min ='1' value="30" onchange="changeMin(this.value)">
-                    </form>
-                    <form>
+                        <input id="minFocus" name="minFocus" type="number" step="1" max="60" min ='1' value="30">
+
                         <label for="minBreak">Break Time</label>
-                        <input id="minBreak" name="minBreak" type="number" step="1" max="60" min="1" value="5" onchange="changeMinDes(this.value)">
+                        <input id="minBreak" name="minBreak" type="number" step="1" max="60" min="1" value="5">
+
+                        <button type="submit">Save</button>
                     </form>
                     </li>
                     <li>
@@ -39,7 +40,7 @@
             <br>
             <button id="start" onclick="ini()">start</button>
             <button id="stop" onclick="det()">stop</button>
-            <button id="reset" onclick="res()">reset</button>
+            <button id="reset" onclick="reset()">reset</button>
 
         </div>
         <br>

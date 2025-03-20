@@ -1,11 +1,33 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const session = require("express-session");
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+app.use(
+      session({
+        secret: "D53gxl41G",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { maxAge: 1000 * 60 * 5},   
+      })
+    );
+
+app.post('/saveMin', (req,res) =>{
+    const {minFocus,minBreak} = req.body;
+    req.session.minFocus = minFocus;
+    req.session.minBreak = minBreak;
+    res.json({ message: 'Datos guardados en la sesión' });
+});
+
+app.get('/getMin', (req,res) => {
+    if (req.session.minFocus && req.session.minBreak) {
+        res.json({ minFocus: req.session.minFocus, minBreak: req.session.minBreak});
+    } else{
+        res.json({ message: 'No hay datos guardados' });
+    }
+});
 
 app.get('/', (req, res, next) =>{
     res.sendFile(path.join(__dirname, 'views', 'index.html'))
@@ -18,3 +40,8 @@ app.get('/week',(req, res, next) =>{
 app.get('/login',(req, res, next) =>{
     res.sendFile(path.join(__dirname, 'views', 'login.html'))
 })
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

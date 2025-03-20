@@ -54,8 +54,8 @@ const stop = document.getElementById('stop');
 const state = document.getElementById('status');
 
 
-let inputUserMin = 30; // Input user to work
-let inputUserMinDes = 5; //input user to break
+let inputUserMin = 30; // Input user to work cambiar 
+let inputUserMinDes = 5; //input user to break cambiar
 
 let interval;  
 let secDes =0;
@@ -63,14 +63,33 @@ let sec = 0;
 let min = inputUserMin;
 let minDes = inputUserMinDes;
 
-const changeMin = (num) =>{
-    inputUserMin = num;
-    res();
+
+ if(fetch('/getMin')){
+    Obtener();
 };
 
-const changeMinDes = (num) =>{
-    inputUserMinDes = num;
-    res();
+async function Obtener() {
+    const res = await fetch('/getMin');
+    const data = await res.json();
+    inputUserMin = data['minFocus']; //revisar que pasa
+    inputUserMinDes = data['minBreak'];
+    reset(); //porque no corre la funcion res
+
+};
+
+
+document.getElementById('form').onsubmit = async (e) => {     //onsubmit hace que cuando se envie el form se activa todo el getElemntById
+    e.preventDefault();
+    
+    const minFocus = document.getElementById('minFocus').value;
+    const minBreak = document.getElementById('minBreak').value;
+//aun await para que se ejecute el codigo mientras sigue el DOM 
+        await fetch('/saveMin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minFocus, minBreak })
+    });
+    Obtener();
 };
 
 seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
@@ -132,14 +151,14 @@ const det = () => {
     interval = null;
 };
 
-const res = () =>{ 
+const reset = () =>{ 
     min = inputUserMin;
     sec = 0;
     seconds.innerHTML = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
     clearInterval(interval);
     state.innerHTML = 'Time to focus!';
     interval = null;
-
+    return;
 }
 
 //Config
