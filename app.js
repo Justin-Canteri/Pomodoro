@@ -14,18 +14,18 @@ app.use(
       })
     );
 
-app.post('/saveMin', (req,res) =>{
+app.post('/save', (req,res) =>{
     const {minFocus,minBreak} = req.body;
     req.session.minFocus = minFocus;
     req.session.minBreak = minBreak;
     res.json({ message: 'Datos guardados en la sesión' });
 });
 
-app.get('/getMin', (req,res) => {
+app.get('/get', (req,res) => {
     if (req.session.minFocus && req.session.minBreak) {
         res.json({ minFocus: req.session.minFocus, minBreak: req.session.minBreak});
     } else{
-        res.json({ message: 'No hay datos guardados' });
+        res.json({ minFocus: 30, minBreak: 5 });
     }
 });
 
@@ -44,4 +44,4 @@ app.get('/login',(req, res, next) =>{
 app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));  

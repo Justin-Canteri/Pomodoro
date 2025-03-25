@@ -7,33 +7,36 @@
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
-        <div>
-            <h1>Pomodoro Timer</h1>
-            <button id="config" onclick="dropConfigFunc()">⚙️</button>
+        <div id="indice">
+            <a id="Pomodoro" href="/">Pomodoro Timer</a>
             <a href="/week">Designe your week</a>
-            <div id ="dropConfig" style="visibility: hidden;">
-                <ul>
-                    <li>
-                    <form id="form">
-                        <label for="minFocus">Focus Time</label>
-                        <input id="minFocus" name="minFocus" type="number" step="1" max="60" min ='1' value="30">
+            <div>
+                <button id="config" onclick="dropConfigFunc()">⚙️Setting</button>
+                    <div id ="dropConfig" style="visibility: hidden;">
+                        <ul>
+                            <li class="con">
+                            <form id="form">
+                                <label for="minFocus">Focus Time</label>
+                                <input id="minFocus" name="minFocus" type="number" step="1" max="60" min ='1' value="30">
 
-                        <label for="minBreak">Break Time</label>
-                        <input id="minBreak" name="minBreak" type="number" step="1" max="60" min="1" value="5">
+                                <label for="minBreak">Break Time</label>
+                                <input id="minBreak" name="minBreak" type="number" step="1" max="60" min="1" value="5">
 
-                        <button type="submit">Save</button>
-                    </form>
-                    </li>
-                    <li>
-                        <a href="/login">login</a>
-                    </li>
-                    <li>
-                        <a href="/logout">logaut</a>
-                    </li>
-                </ul>
+                                <button type="submit">Save</button>
+                            </form>
+                            </li>
+                            <li class="con">
+                                <a href="/login">login</a>
+                            </li>
+                            <li class="con">
+                                <a href="/logout">logaut</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
             </div>
-            <br>
         </div>
+        <script src="/config.js"></script>
         <div>
             <h1 id="seconds"></h1>
             <p id="status"></p>
@@ -43,6 +46,7 @@
             <button id="reset" onclick="reset()">reset</button>
 
         </div>
+        <script src="/Time.js"></script>
         <br>
         <div>    
             <div id='Task'>
@@ -50,6 +54,6 @@
                 <button id="NewTask" onclick="addTask()">+ New Task</button>
             </div>
         </div>
-        <script src="/script.js"></script>
+        <script src="/task.js"></script>
     </body>
 </html>
