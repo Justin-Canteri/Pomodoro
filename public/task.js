@@ -1,49 +1,32 @@
 let taskList = document.getElementById("Task");
 
-if(fetch('/get-all')){  //retirar el No hay textos almacenados
-    obtenerTodo();
-    };
+
+
+// Cargar todas las tareas al inicio
+obtenerTodo();
 
 async function addTask() {
-    let taskInput = document.getElementById('inputana').value;
+    let taskInputEl = document.getElementById('inputana');
+    let taskInput = taskInputEl.value.trim();
 
     if (taskInput !== '') {
         const respuesta = await fetch("/saveTask", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: taskInput, task: taskInput }) // Corrige la estructura del JSON
+            body: JSON.stringify({ id: taskInput, task: taskInput }) // ID = texto, podés cambiar esto si querés ID diferente
         });
 
         if (respuesta.ok) {
             obtenerTodo();
         } else {
-            console.error("Error al guardar la tarea");
+            const data = await respuesta.json();
+            alert(data.error || "Error al guardar la tarea");
         }
     } else {
-        alert('no funca compa');
-    }
-    taskInput= ""; // se borra la entrada
-}
-
-async function obtenerTexto(taskInput) {
-
-    const respuesta = await fetch(`/getTask/${taskInput}`);
-    if (!respuesta.ok) {
-        console.error("Error al obtener la task");
-        return;
+        alert('No funca compa');
     }
 
-    const data = await respuesta.json();
-
-    let p = document.createElement('p');
-    p.innerHTML = `
-        <input type="checkbox" id="scales" name="scales" />
-        <span id="${data.taskInput}" onclick="toggleComplete(this)">${data.taskInput}</span>
-        <button class="delete-btn" onclick="deleteTask(this)">X</button>
-        <button class="edit-btn" onclick="editTask(this)">✏️</button>
-    `;
-
-    taskList.appendChild(p);
+    taskInputEl.value = ""; // Limpiar input
 }
 
 async function obtenerTodo() {
@@ -58,32 +41,40 @@ async function obtenerTodo() {
         for (const id in data) {
             let p = document.createElement('p');
             p.innerHTML = `
-            <input type="checkbox" id="scales" name="scales" />
-            <span id="${id}" onclick="toggleComplete(this)">${data[id]}</span>
-            <button class="delete-btn" onclick="deleteTask(this)">X</button>
-            <button class="edit-btn" onclick="editTask(this)">✏️</button>`;
+                <input type="checkbox" />
+                <span onclick="toggleComplete(this)" data-id="${id}">${data[id]}</span>
+                <button class="delete-btn" onclick="eliminarTexto('${id}', this)">X</button>
+                <button class="edit-btn" onclick="editTask('${id}', '${data[id]}')">✏️</button>
+                
+                
+            `;
             taskList.appendChild(p);
         }
     }
 }
 
-
-//Editar la tarea
-const toggleComplete = (task) => {
-    task.classList.toggle("completed")  //aprieto el texto osesa es como al apretar el texto funciona como un checkbox
-    alert('togleComlete')
-    ;
-    
-};
-
-const deleteTask = (button) => {
+async function eliminarTexto(id, button) {
     let li = button.parentElement;
     li.remove();
-};
 
-const editTask = (button) => {
+    const respuesta = await fetch(`/eliminar/${id}`, {
+        method: "DELETE"
+    });
+
+    const data = await respuesta.json();
+    document.getElementById("mensaje").textContent = data.error || data.mensaje;
+    
+}
+
+function editTask(id, text) {
     let taskInput = document.getElementById('inputana');
-    let span = button.previousElementSibling.previousElementSibling; // Obtener el <span> anterior al botón
-    taskInput.value = span.textContent; // Asignar el texto del <span> al input
-    deleteTask(button); // Eliminar la tarea actual para que se pueda editar
-};
+    taskInput.value = text;
+
+    // Eliminar la tarea para poder editar y guardarla como nueva
+    eliminarTexto(id, taskInput); // cuidado: puede eliminar antes de escribir
+}
+
+function toggleComplete(span) {
+    span.classList.toggle("completed");
+}
+

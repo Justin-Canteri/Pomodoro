@@ -149,3 +149,48 @@ p#status {
 }
 
 
+/* Recuadro para cada tarea */
+#Task p {
+    background-color: #2c2c2c;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 8px;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+/* Texto de la tarea */
+#Task span {
+    flex: 1;
+    text-align: left;
+    padding-left: 10px;
+    transition: 0.3s ease;
+}
+
+/* Botones ocultos por defecto */
+.delete-btn, .edit-btn {
+    display: none;
+    margin-left: 5px;
+}
+
+/* Mostrar botones al hacer hover */
+#Task p:hover .delete-btn,
+#Task p:hover .edit-btn {
+    display: inline-block;
+}
+
+/* Checkbox */
+#Task input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+/* Estilo de tarea completada */
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}

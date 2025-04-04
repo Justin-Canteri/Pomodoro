@@ -14,7 +14,8 @@ app.use(
       })
     );
     
-//post Timer 
+//TIMER
+//post Timer
 app.post('/save', (req,res) =>{
     const {minFocus,minBreak} = req.body;
     req.session.minFocus = minFocus;
@@ -30,6 +31,9 @@ app.get('/get', (req,res) => {
         res.json({ minFocus: 30, minBreak: 5 });
     }
 });
+
+//------------------------------------------------------------------------------------------//
+
 //post tasks con un id
 app.post('/saveTask', (req, res) => {
     const { id, task } = req.body;
@@ -50,6 +54,7 @@ app.post('/saveTask', (req, res) => {
     res.json({ mensaje: 'Texto guardado correctamente' });
 });
 
+//obtener task ( de a una )
 app.get('/getTask/:id', (req, res) => {
     const id = req.params.id;
 
@@ -64,21 +69,44 @@ app.get('/getTask/:id', (req, res) => {
     res.json({ taskInput: req.session.task[id] }); // Asegura que coincida con el frontend
 });
 
+//obtener todas las task
 app.get('/get-all', (req,res) =>{
-    if (!req.session.task || Object.keys(req.session.task).length === 0) {
-        return res.json({ mensaje: "No hay textos almacenados" });
-    }
     res.json(req.session.task);
 })
+
+app.delete('/eliminar/:id', (req, res) => {
+    const id = req.params.id;
+
+    if (!req.session.task || !req.session.task[id]) {
+        return res.status(404).json({ error: 'Texto no encontrado' });
+    }
+
+    delete req.session.task[id];
+    res.json({ mensaje: 'Texto eliminado correctamente' });
+});
+
+
+app.put('/actualizar/:id', (req, res) => {
+    const id = req.params.id;
+    const { task } = req.body;
+
+    if (!task) {
+        return res.status(400).json({ error: 'Se requiere un nuevo texto' });
+    }
+
+    if (!req.session.task || !req.session.task[id]) {
+        return res.status(404).json({ error: 'Texto no encontrado' });
+    }
+
+    req.session.task[id] = task;
+    res.json({ mensaje: 'Texto actualizado correctamente' });
+});
+
 
 //sever 
 
 app.get('/', (req, res, next) =>{
     res.sendFile(path.join(__dirname, 'views', 'index.html'))
-});
-
-app.get('/week',(req, res, next) =>{
-    res.sendFile(path.join(__dirname, 'views', 'week.html'))
 });
 
 app.get('/login',(req, res, next) =>{

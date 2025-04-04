@@ -9,7 +9,6 @@
     <body>
         <div id="indice">
             <a id="Pomodoro" href="/">Pomodoro Timer</a>
-            <a href="/week">Designe your week</a>
             <div>
                 <button id="config" onclick="dropConfigFunc()">⚙️Setting</button>
                     <div id ="dropConfig" style="visibility: hidden;">
@@ -24,13 +23,6 @@
 
                                 <button type="submit">Save</button>
                             </form>
-                            </li>
-                            <li class="con">
-                                <a href="/login">login</a>
-                            </li>
-                            <li class="con">
-                                <a href="/logout">logaut</a>
-                            </li>
                         </ul>
                     </div>
                     <br>
@@ -51,7 +43,6 @@
         <div>    
             <input id="inputana" placeholder="Agregar nueva tarea...">
             <button id="NewTask" onclick="addTask()">+ New Task</button>
-            <button onclick="obtenerTodo()">Obtener todo</button>
             <div id='Task'> </div>
         </div>
         <script src="/task.js"></script>
