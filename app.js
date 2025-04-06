@@ -103,6 +103,21 @@ app.put('/actualizar/:id', (req, res) => {
 });
 
 
+app.post('/saveTime', (req,res) =>{
+    const {time} = req.body;
+    req.session.time = time;
+    res.json({ message: 'Datos guardados en la sesión' });
+});
+
+//get Timer 
+app.get('/getTime', (req,res) => {
+    if (req.session.time) {
+        res.json({ time: req.session.time});
+    }else{
+        res.json({ time:'Time work' });
+    }
+});
+
 //sever 
 
 app.get('/', (req, res, next) =>{

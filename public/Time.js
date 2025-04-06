@@ -3,6 +3,7 @@ const seconds = document.getElementById('seconds');
 const start = document.getElementById('start');
 const stop = document.getElementById('stop');
 const state = document.getElementById('status');
+const MinWork = document.getElementById('MinWork');
 
 
 let inputUserMin = 30; // Input user to work cambiar 
@@ -13,11 +14,31 @@ let secDes =0;
 let sec = 0;
 let min = inputUserMin;
 let minDes = inputUserMinDes;
+let MinutesWoekeados = 0;
 
 
- if(fetch('/get')){  //aqui esta el problema del NaN (not a number)
+ if(fetch('/get')){
     Obtener();
     };
+    
+ObtainWork();
+
+//send minutes work
+async function MinWorks() {
+    MinutesWoekeados = MinutesWoekeados + (inputUserMin - min);
+    await fetch('/saveTime', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ time: `${MinutesWoekeados} minutes` })
+    });
+    ObtainWork()
+}
+
+async function ObtainWork() {
+    const res = await fetch('/getTime');
+    const data = await res.json();
+    MinWork.innerHTML = data['time'];
+};
 
 async function Obtener() {
     const res = await fetch('/get');
@@ -48,7 +69,8 @@ state.innerHTML = 'Time to focus!';
 const mostrarTiempoTranscurrido = () => {
     if (sec === 0) {
         if (min === 0) {     
-            clearInterval(interval);// Detener cuando llega a 00:00       
+            clearInterval(interval);// Detener cuando llega a 00:00     
+            MinWorks()  
             minDes = inputUserMinDes;
             secDes = 0;
             state.innerHTML = 'Time to break!'
@@ -100,6 +122,7 @@ const ini = () => {
 const det = () => {
     clearInterval(interval);//cancela la acción repetitiva especificada por el ID del intervalo
     interval = null;
+
 };
 
 const reset = () =>{ 
@@ -111,3 +134,4 @@ const reset = () =>{
     interval = null;
     return;
 }
+
